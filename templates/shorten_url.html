@@ -15,7 +15,7 @@
         <br>
         <input type="text" placeholder="Enter your custom key" name="key">
         <br>
-        <input type="datetime" id="datetime" placeholder="expire time" name="time">
+        <input type="datetime" id="datetime" placeholder="expire time" name="time" min=>
         <br>
 
         <button id="submit">Submit</button>
@@ -36,7 +36,8 @@
             $('#datetime').datetimepicker({
                 format:'Y-m-d H:i:s',
                 inline:false,
-                lang:'en'
+                lang:'en',
+                minDate:0,
             });
 
 
