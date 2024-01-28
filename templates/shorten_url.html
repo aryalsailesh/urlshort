@@ -1,6 +1,7 @@
 <!-- FILEPATH: /Users/sauravaryal/Developer/urlshort/urlshorting/templates/shorten_url.html -->
 <!DOCTYPE html>
 <html>
+    {% load qr_code %}
 <head>
     <title>Shorten URL</title>
     <!-- Add your CSS and other meta tags here -->
@@ -16,12 +17,13 @@
     </form>
 
     <div id="shor-url">
-
+        
     </div>
 
 
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
     <script>
         $(document).ready(function(){
             $("#submit").click(function(e){
@@ -49,10 +51,18 @@
                                 windows_domain = window.location.origin;
                             console.log(windows_domain,'windows_domain');
                             short_url = windows_domain + "/" + data;
-                            console.log(short_url,'short_url');
-                            {% comment %} $("#shor-url").html("<a href='"+short_url+"' target='"_blank"'>"+short_url+"</a>"); {% endcomment %}
+                            
                             $("#shor-url").html("<a href='"+short_url+"' target='_blank'>"+short_url+"</a>");
-    
+                            
+                            var qrcode = new QRCode(document.getElementById("shor-url"), {
+                                text: short_url,
+                                width: 128,
+                                height: 128,
+                                colorDark : "#000000",
+                                colorLight : "#ffffff",
+                                correctLevel : QRCode.CorrectLevel.H
+                            });
+                            
                             }
                             
                         }
