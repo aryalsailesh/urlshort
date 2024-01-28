@@ -1,0 +1,54 @@
+<!-- FILEPATH: /Users/sauravaryal/Developer/urlshort/urlshorting/templates/shorten_url.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shorten URL</title>
+    <!-- Add your CSS and other meta tags here -->
+</head>
+<body>
+    <h1>Shorten URL</h1>
+    <form method="GET" action="">
+        <input type="text" name="url" placeholder="Enter URL" required>
+        <button id="submit">Submit</button>
+    </form>
+
+    <div id="shor-url">
+
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#submit").click(function(e){
+                e.preventDefault();
+                var url = $("input[name=url]").val();
+                if (url == ""){
+                    alert("Please enter a URL");
+                    return false;
+                }else{
+                    console.log(url,'url');
+                    $.ajax({
+                        url: "{% url 'account:creat_short_url' %}",
+                        type: "GET",
+                        data: {
+                            url: url,
+                        },
+                        success: function(data){
+                            console.log(data,'dataaaaaaaaa');  
+                            windows_domain = window.location.origin;
+                            console.log(windows_domain,'windows_domain');
+                            short_url = windows_domain + "/" + data;
+                            console.log(short_url,'short_url');
+                            $("#shor-url").html("<a href='"+short_url+"'>"+short_url+"</a>");
+    
+                        }
+                    });
+                }
+                
+            });
+        });
+    </script>
+</body>
+</html>
