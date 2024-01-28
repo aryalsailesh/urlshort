@@ -46,8 +46,15 @@ def generate_short_url():
 def creat_short_url(request):
     
     original_url = request.GET.get("url")
-    print(original_url,22222222222)
-    short_url = generate_short_url()
+    key = request.GET.get("key")
+    if key:
+        find_key = UrlShortener.objects.filter(short_url=key)
+        if find_key:
+            return HttpResponse("Key already exist")
+        else:
+            short_url = key
+    else:
+        short_url = generate_short_url()
     short_url_inst = UrlShortener.objects.create(long_url=original_url, short_url=short_url)
     short_url_inst.save()
     return HttpResponse(short_url)

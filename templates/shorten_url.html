@@ -9,6 +9,9 @@
     <h1>Shorten URL</h1>
     <form method="GET" action="">
         <input type="text" name="url" placeholder="Enter URL" required>
+        <br>
+        <input type="text" placeholder="Enter your custom key" name="key">
+        <br>
         <button id="submit">Submit</button>
     </form>
 
@@ -24,6 +27,7 @@
             $("#submit").click(function(e){
                 e.preventDefault();
                 var url = $("input[name=url]").val();
+                var key = $("input[name=key]").val();
                 if (url == ""){
                     alert("Please enter a URL");
                     return false;
@@ -34,16 +38,23 @@
                         type: "GET",
                         data: {
                             url: url,
+                            key: key
                         },
                         success: function(data){
-                            console.log(data,'dataaaaaaaaa');  
-                            windows_domain = window.location.origin;
+                            if (data=== "Key already exist"){
+                                alert("Key already exist");
+                                return false;
+                            }
+                            else{
+                                windows_domain = window.location.origin;
                             console.log(windows_domain,'windows_domain');
                             short_url = windows_domain + "/" + data;
                             console.log(short_url,'short_url');
                             {% comment %} $("#shor-url").html("<a href='"+short_url+"' target='"_blank"'>"+short_url+"</a>"); {% endcomment %}
                             $("#shor-url").html("<a href='"+short_url+"' target='_blank'>"+short_url+"</a>");
     
+                            }
+                            
                         }
                     });
                 }
