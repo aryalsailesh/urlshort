@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Short URL Lit</title>
+</head>
+<body>
+    <h1>Short URL List</h1>
+    <!-- Add your content here -->
+
+
+    <div class="table">
+        <table>
+            <thead>
+                <tr>
+                    <th>S.N.</th>
+                    <th>Short URL</th>
+                    <th>Long URL</th>
+                    <th>Created</th>
+                    <th>Clicks</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for urls in object_list  %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% url 'account:url_detail' urls.short_url %}">{{ urls.short_url }}</a></td>
+                        <td>{{ urls.long_url}} </td>
+                        <td>{{ urls.created_at }}</td>
+                        <td>{{ urls.count }}</td>
+                    </tr>
+                {% endfor %}
+                    
+            </tbody>
+        </table>
+    </div>
+
+
+</body>
+</html>

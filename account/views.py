@@ -59,8 +59,14 @@ def shorten_url(request):
 
 @login_required(login_url="/login/")
 def short_url_detail(request, short_url):
-    short_url_obj = UrlShortener.objects.get(short_url=short_url)
-    return render(request, "short_url_detail.html", {"short_url_obj": short_url_obj})
+    
+    short_url_obj = get_object_or_404(UrlShortener, short_url=short_url)
+    return render(request, "short_url_detail.html", {"object": short_url_obj})
+
+
+def short_url_list(request):
+    short_url_list = UrlShortener.objects.all()
+    return render(request, "short_url_list.html", {"object_list": short_url_list})
 
 
 
