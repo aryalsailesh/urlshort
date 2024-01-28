@@ -10,6 +10,7 @@ class UrlShortener(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     count = models.IntegerField(default=0)
+    expiration_time = models.DateTimeField(null=True, blank=True)
     
     def __str__(self):
         return self.short_url

@@ -5,6 +5,8 @@
 <head>
     <title>Shorten URL</title>
     <!-- Add your CSS and other meta tags here -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css">
+
 </head>
 <body>
     <h1>Shorten URL</h1>
@@ -13,6 +15,9 @@
         <br>
         <input type="text" placeholder="Enter your custom key" name="key">
         <br>
+        <input type="datetime" id="datetime" placeholder="expire time" name="time">
+        <br>
+
         <button id="submit">Submit</button>
     </form>
 
@@ -24,12 +29,22 @@
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
     <script>
         $(document).ready(function(){
+
+            $('#datetime').datetimepicker({
+                format:'Y-m-d H:i:s',
+                inline:false,
+                lang:'en'
+            });
+
+
             $("#submit").click(function(e){
                 e.preventDefault();
                 var url = $("input[name=url]").val();
                 var key = $("input[name=key]").val();
+                var time = $("input[name=time]").val();
                 if (url == ""){
                     alert("Please enter a URL");
                     return false;
@@ -40,7 +55,8 @@
                         type: "GET",
                         data: {
                             url: url,
-                            key: key
+                            key: key,
+                            time: time
                         },
                         success: function(data){
                             if (data=== "Key already exist"){
@@ -62,6 +78,8 @@
                                 colorLight : "#ffffff",
                                 correctLevel : QRCode.CorrectLevel.H
                             });
+
+
                             
                             }
                             

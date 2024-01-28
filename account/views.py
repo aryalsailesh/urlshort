@@ -7,8 +7,8 @@ from django.contrib.auth.decorators import login_required
 from .models import UrlShortener
 import string
 import random
-
-
+from datetime import datetime
+from django.utils.timezone import make_aware
 
 # Create your views here.
 
@@ -47,6 +47,12 @@ def creat_short_url(request):
     
     original_url = request.GET.get("url")
     key = request.GET.get("key")
+    time = request.GET.get("time")
+    print(time,'timeeeeeeee')
+    if time:
+        time = datetime.strptime(time, "%Y-%m-%d %H:%M:%S")
+    else:
+        time = None
     if key:
         find_key = UrlShortener.objects.filter(short_url=key)
         if find_key:
@@ -55,7 +61,7 @@ def creat_short_url(request):
             short_url = key
     else:
         short_url = generate_short_url()
-    short_url_inst = UrlShortener.objects.create(long_url=original_url, short_url=short_url)
+    short_url_inst = UrlShortener.objects.create(long_url=original_url, short_url=short_url, expiration_time=time)
     short_url_inst.save()
     return HttpResponse(short_url)
     
@@ -80,10 +86,13 @@ def short_url_list(request):
 
 
 def short_url_redirect(request, short_url):
-    try:
-        short_url_obj = get_object_or_404(UrlShortener, short_url=short_url)
-        short_url_obj.count += 1
-        short_url_obj.save()
-        return HttpResponseRedirect(f'{short_url_obj.long_url}')
-    except:
-        return HttpResponse("Invalid URL")
+
+    short_url_obj = get_object_or_404(UrlShortener, short_url=short_url)
+    if short_url_obj.expiration_time:
+        expiration_time = short_url_obj.expiration_time
+        if expiration_time < make_aware(datetime.now()):
+            return HttpResponse("This short url has expired")
+    short_url_obj.count += 1
+    short_url_obj.save()
+    return HttpResponseRedirect(f'{short_url_obj.long_url}')
+    
