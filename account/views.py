@@ -61,7 +61,9 @@ def shorten_url(request):
 def short_url_detail(request, short_url):
     
     short_url_obj = get_object_or_404(UrlShortener, short_url=short_url)
-    return render(request, "short_url_detail.html", {"object": short_url_obj})
+    window_domain = request.get_host()
+    short_url_is = f"http://{window_domain}/{short_url_obj.short_url}"
+    return render(request, "short_url_detail.html", {"object": short_url_obj, "short_url": short_url_is})
 
 
 def short_url_list(request):
