@@ -17,6 +17,16 @@
         <br>
         <input type="submit" value="Login">
       </form>
+
+
+
+    {% if request.user.is_anonymous %}
+        <a href="{% url 'account:login' %}">Login</a>
+    {% else %}
+        <a href="{% url 'account:logout' %}">Logout</a>
+    {% endif %}
 </body>
 </html>
+
+
 
