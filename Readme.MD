@@ -9,3 +9,7 @@
 
 # /short/url/ to create short url 
 
+# url/list/ for all the created short url 
+
+# url/detail/<str:short_url> for the detail of that url 
+
